@@ -18,12 +18,17 @@ class Author
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 255)]
     private string $firstName;
 
     #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 255)]
     private string $lastName;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Length(min: 2, max: 255)]
     private ?string $middleName = null;
 
     #[ORM\ManyToMany(targetEntity: Book::class, inversedBy: "authors")]
@@ -70,5 +75,15 @@ class Author
         $book->addAuthor($this);
         
         $this->books[] = $book;
+    }
+
+    public function getMiddleName(): ?string
+    {
+        return $this->middleName;
+    }
+
+    public function setMiddleName(?string $middleName): void
+    {
+        $this->middleName = $middleName;
     }
 }

@@ -9,6 +9,7 @@ use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Table(name: 'book')]
@@ -20,7 +21,8 @@ class Book
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: false, unique: true)]
+    #[Assert\NotBlank]
     private string $title;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -33,7 +35,6 @@ class Book
     private ?\DateTimeInterface $publicationDate = null;
 
     #[ORM\ManyToMany(targetEntity: Author::class, mappedBy: 'books')]
-    #[ORM\JoinTable(name: 'author_book')]
     private Collection $authors;
 
     public function __construct()

@@ -9,7 +9,7 @@ You need to have Docker Engine and Docker Compose on your machine.
 
 In order to run application:
 
-1) cd to app directory
+1) switch to app directory
 2) execute: docker compose up -d
 3) execute: php bin/console doctrine:migrations:migrate
 2) use endpoints described below with http://localhost:81/, for example:
@@ -54,7 +54,11 @@ XDEBUG_MODE=debug docker compose -f docker-compose.yaml up -d
     - **Description:** Retrieve detailed information about a specific author identified by their unique ID.
 
 8. **Create a New Author**
-    - **Endpoint:** `POST /authors`
+    - **Endpoint:** `POST /api/author`
+      {
+         "firstname": "qwe",
+         "lastname": "qwe"
+      }
     - **Description:** Add a new author to the bookstore. Requires a JSON payload with author details.
 
 9. **Update Author Information**
@@ -72,6 +76,12 @@ XDEBUG_MODE=debug docker compose -f docker-compose.yaml up -d
 API:
 
    a) Роут для створення авторів
+
+   `POST /api/author`
+   {
+   "firstname": "qwe",
+   "lastname": "qwe"
+   }
 
    b) Роут для перегляду списку всіх авторів
 
