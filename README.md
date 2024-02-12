@@ -2,13 +2,16 @@
 
 is a simple robust RESTful web service designed to manage information about books and their respective authors. The API allows users to perform CRUD operations on both books and authors, facilitating seamless integration into various applications. 
 
-**_No Authentication, Rate Limiting, Documentation (except described in this file) or Caching implemented._**
+**_No Authentication, Rate Limiting, Documentation (except described in this file), Caching, Versioning, Tests implemented._**
 
 Requirements:
 You need to have Docker Engine and Docker Compose on your machine.
 
 In order to run application:
-1) execute: docker compose up -d
+
+1) cd to app directory
+2) execute: docker compose up -d
+3) execute: php bin/console doctrine:migrations:migrate
 2) use endpoints described below with http://localhost:81/, for example:
 
   GET http://localhost:81/books

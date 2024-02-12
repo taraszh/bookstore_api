@@ -27,6 +27,6 @@ services:
       XDEBUG_MODE: "${XDEBUG_MODE:-off}"
     extra_hosts:
       - host.docker.internal:host-gateway
-  
+
 volumes:
   postgres-data:
