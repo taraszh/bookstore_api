@@ -6,6 +6,8 @@ use App\Entity\Author;
 use App\Entity\Book;
 use App\Exception\BookAlreadyExistsException;
 use App\Exception\InvalidAuthorException;
+use App\Model\BookListItem;
+use App\Model\BookListResponse;
 use App\Model\CreateBookRequest;
 use App\Model\ResourceCreatedResponse;
 use App\Repository\BookRepository;
@@ -68,5 +70,41 @@ class BookService
         if ($bookExists) {
             throw new BookAlreadyExistsException();
         }
+    }
+
+    public function getBooksResponse(int $page): BookListResponse
+    {
+        $books = $this->bookRepository->findBy(
+            criteria: [],
+            offset: PaginationUtils::calculateOffset($page, BookListResponse::MAX_ITEMS_PER_PAGE)
+        );
+        
+        return new BookListResponse(
+            array_map(
+                $this->mapBook(...),
+                $books
+            )
+        );
+    }
+    
+    private function mapBook(Book $book): BookListItem
+    {
+        $item = new BookListItem();
+        
+        $item->setId($book->getId());
+        $item->setTitle($book->getTitle());
+        $item->setDescription($book->getDescription());
+
+        if ($book->getPublicationDate()) {
+            $item->setPublicationDate($book->getPublicationDate()->format('Y-m-d'));
+        }
+        
+        foreach ($book->getAuthors() as $author) {
+            $authors[] = $this->authorService->mapAuthor($author);
+        }
+        
+        $item->setAuthors($authors);
+        
+        return $item;
     }
 }

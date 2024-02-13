@@ -70,7 +70,7 @@ class AuthorService
         );
     }
     
-    private function mapAuthor(Author $author): AuthorListItem
+    public function mapAuthor(Author $author): AuthorListItem
     {
         $item = new AuthorListItem();
         
