@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Author;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 
@@ -14,9 +15,9 @@ class AuthorRepository extends ServiceEntityRepository
         parent::__construct($registry, Author::class);
     }
     
-    public function save(Author $author)
+    public function save(Author $author): void
     {
         $this->getEntityManager()->persist($author);
         $this->getEntityManager()->flush();
-    }  
+    }
 }

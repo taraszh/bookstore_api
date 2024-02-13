@@ -52,7 +52,9 @@
         "symfony/polyfill-php82": "*"
     },
     "scripts": {
-        "reload-fixtures-test": "bin/console doctrine:fixtures:load --purge-with-truncate --no-interaction",
+        "docker-up": "docker compose up -d",
+        "docker-down": "docker compose down",
+        "reload-fixtures-test": "docker compose bin/console doctrine:fixtures:load --purge-with-truncate --no-interaction",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"

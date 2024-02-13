@@ -11,63 +11,11 @@ In order to run application:
 
 1) switch to app directory
 2) execute: docker compose up -d
-3) execute: php bin/console doctrine:migrations:migrate
-2) use endpoints described below with http://localhost:81/, for example:
-
-  GET http://localhost:81/books
-
-  GET http://localhost:81/authors
+3) execute: docker compose exec app bin/console doctrine:migrations:migrate 
+4) use endpoints described below, using host **http://localhost:81/**
 
 In order to run application with xdebug execute:
 XDEBUG_MODE=debug docker compose -f docker-compose.yaml up -d
-
----
-
-**Endpoints:**
-
-1. **Get All Books**
-    - **Endpoint:** `GET /books`
-    - **Description:** Retrieve a list of all books available in the bookstore.
-
-2. **Get Book by ID**
-    - **Endpoint:** `GET /books/{id}`
-    - **Description:** Retrieve detailed information about a specific book identified by its unique ID.
-
-3. **Create a New Book**
-    - **Endpoint:** `POST /books`
-    - **Description:** Add a new book to the bookstore. Requires a JSON payload with book details.
-
-4. **Update Book Information**
-    - **Endpoint:** `PUT /books/{id}`
-    - **Description:** Update the information of an existing book identified by its unique ID. Requires a JSON payload with the updated book details.
-
-5. **Delete a Book**
-    - **Endpoint:** `DELETE /books/{id}`
-    - **Description:** Remove a book from the bookstore based on its unique ID.
-
-6. **Get All Authors**
-    - **Endpoint:** `GET /authors`
-    - **Description:** Retrieve a list of all authors with their associated books.
-
-7. **Get Author by ID**
-    - **Endpoint:** `GET /authors/{id}`
-    - **Description:** Retrieve detailed information about a specific author identified by their unique ID.
-
-8. **Create a New Author**
-    - **Endpoint:** `POST /api/author`
-      {
-         "firstname": "qwe",
-         "lastname": "qwe"
-      }
-    - **Description:** Add a new author to the bookstore. Requires a JSON payload with author details.
-
-9. **Update Author Information**
-    - **Endpoint:** `PUT /authors/{id}`
-    - **Description:** Update the information of an existing author identified by their unique ID. Requires a JSON payload with the updated author details.
-
-10. **Delete an Author**
-    - **Endpoint:** `DELETE /authors/{id}`
-    - **Description:** Remove an author from the bookstore based on their unique ID. Associated books will remain in the system.
 
 ---
 
@@ -77,15 +25,23 @@ API:
 
    a) Роут для створення авторів
 
-   `POST /api/author`
-   {
-   "firstname": "qwe",
-   "lastname": "qwe"
-   }
+      POST /api/author
+      {
+      "firstname": "Jules",
+      "lastname": "Verne"
+      }
 
    b) Роут для перегляду списку всіх авторів
 
    c) Роут для створення книг
+
+     POST /api/book
+      {
+      "title": "The Begum's Fortune",
+      "description": "It is noteworthy as the first published book in which Verne was cautionary, and somewhat pessimistic about the development of science and technology.",
+      "authorsIds": [1],
+      "publicationDate": "1879"
+      }   
 
    d) Роут для перегляду списку всіх книг
 

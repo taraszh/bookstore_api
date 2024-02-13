@@ -13,8 +13,6 @@ services:
       - ./.env
     ports:
       - 5432:5432
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
   
   app:
     build:
@@ -27,6 +25,4 @@ services:
       XDEBUG_MODE: "${XDEBUG_MODE:-off}"
     extra_hosts:
       - host.docker.internal:host-gateway
-
-volumes:
-  postgres-data:
+      

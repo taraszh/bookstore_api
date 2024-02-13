@@ -22,7 +22,6 @@ class Book
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: false, unique: true)]
-    #[Assert\NotBlank]
     private string $title;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -90,9 +89,12 @@ class Book
     
     public function addAuthor(Author $author): void
     {
-        $author->addBook($this);
+        if ($this->authors->contains($author)) {
+            return;
+        }
         
-        $this->authors[] = $author;
+        $this->authors->add($author);
+        $author->addBook($this);
     }
 
     public function getAuthors(): Collection

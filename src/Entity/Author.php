@@ -72,9 +72,12 @@ class Author
 
     public function addBook(Book $book): void
     {
+        if ($this->books->contains($book)) {
+            return;
+        }
+
+        $this->books->add($book);
         $book->addAuthor($this);
-        
-        $this->books[] = $book;
     }
 
     public function getMiddleName(): ?string
