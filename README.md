@@ -2,7 +2,7 @@
 
 is a simple robust RESTful web service designed to manage information about books and their respective authors. The API allows users to perform CRUD operations on both books and authors, facilitating seamless integration into various applications. 
 
-**_No Authentication, Rate Limiting, Documentation (except described in this file), Caching, Versioning, Tests implemented._**
+**_No Authentication, Rate Limiting, Documentation (except short description below), Caching, Versioning, Tests, Exception Handling implemented._**
 
 Requirements:
 You need to have Docker Engine and Docker Compose on your machine.
@@ -51,10 +51,26 @@ API:
       GET /api/books/{page}
 
    e) Роут для пошуку книг за прізвищем автора
+      
+      -
 
    f) Роут для перегляду однієї книги
 
+      GET /api/book/{id}
+
    g) Роут для редагування книги
+
+      PUT /api/book/{id}
+      {
+      "title": "The Begum's Fortune",
+      "description": "It is noteworthy as the first published book in which Verne was cautionary, and somewhat pessimistic about the development of science and technology.",
+      "authorsIds": [1],
+      "publicationDate": "1879"
+      } 
+   
+   h) тут ще б мав бути роут для завантаження картинки (відповідно "Роут для редагування" потребував би змін)
+
+      - 
 
 Опис даних.
 

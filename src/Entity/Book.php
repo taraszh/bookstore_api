@@ -97,6 +97,16 @@ class Book
         $author->addBook($this);
     }
 
+    public function removeAuthor(Author $author): void
+    {
+        if (!$this->authors->contains($author)) {
+            return;
+        }
+
+        $this->authors->removeElement($author);
+        $author->removeBook($this);
+    }
+    
     public function getAuthors(): Collection
     {
         return $this->authors;

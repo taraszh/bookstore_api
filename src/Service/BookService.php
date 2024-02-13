@@ -5,18 +5,22 @@ namespace App\Service;
 use App\Entity\Author;
 use App\Entity\Book;
 use App\Exception\BookAlreadyExistsException;
+use App\Exception\BookNotFoundException;
 use App\Exception\InvalidAuthorException;
 use App\Model\BookListItem;
 use App\Model\BookListResponse;
+use App\Model\BookResponse;
 use App\Model\CreateBookRequest;
+use App\Model\PutBookRequest;
 use App\Model\ResourceCreatedResponse;
 use App\Repository\BookRepository;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class BookService
 {
     public function __construct(
         private readonly BookRepository $bookRepository,
-        private readonly AuthorService  $authorService
+        private readonly AuthorService  $authorService,
     ) {
     }
 
@@ -24,14 +28,14 @@ class BookService
     {
         $this->validateBook($createBookRequest);
 
-        $book = $this->getBook($createBookRequest);
+        $book = $this->mapCreateBookRequest($createBookRequest);
 
         $this->bookRepository->save($book);
 
         return new ResourceCreatedResponse($book->getId());
     }
 
-    public function getBook(CreateBookRequest $createBookRequest): Book
+    private function mapCreateBookRequest(CreateBookRequest $createBookRequest): Book
     {
         $book = new Book();
         $book->setTitle($createBookRequest->title);
@@ -48,7 +52,7 @@ class BookService
         return $book;
     }
 
-    private function getAuthors(CreateBookRequest $createBookRequest): array
+    private function getAuthors(CreateBookRequest|PutBookRequest $createBookRequest): array
     {
         $authorsIds = $createBookRequest->authorsIds;
         $authors = $this->authorService->getAuthors($authorsIds);
@@ -86,7 +90,52 @@ class BookService
             )
         );
     }
-    
+
+    public function getBook(int $id): array
+    {
+        // todo return proper response object (like with books_get and author_*)
+        /** @var Book $book */
+        $book = $this->bookRepository->find($id);
+        
+        $bookResponse['id'] = $book->getId();
+        $bookResponse['title'] = $book->getTitle();
+        $bookResponse['description'] = $book->getDescription();
+        $bookResponse['image'] = $book->getImage();
+
+        foreach ($book->getAuthors() as $author) {
+            $authors[]['id'] = $author->getId();
+        }
+        
+        $bookResponse['authors'] = $authors ?? [];
+        
+        return $bookResponse;
+    }
+
+    public function updateBook(int $id, PutBookRequest $patchBookRequest): void
+    {
+        /** @var Book $book */
+        $book = $this->bookRepository->find($id);
+        if (!$book) {
+            throw new BookNotFoundException();
+        }
+        
+        $book->setTitle($patchBookRequest->title);
+        $book->setDescription($patchBookRequest->description);
+        $book->setPublicationDate($patchBookRequest->publicationDate);
+        
+        foreach ($book->getAuthors() as $author) {
+            $book->removeAuthor($author);
+        }
+        
+        $authors = $this->getAuthors($patchBookRequest);
+
+        foreach ($authors as $author) {
+            $book->addAuthor($author);
+        }
+
+        $this->bookRepository->save($book);
+    }
+
     private function mapBook(Book $book): BookListItem
     {
         $item = new BookListItem();

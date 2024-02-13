@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\CreateBookRequest;
+use App\Model\PutBookRequest;
 use App\Service\BookService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,5 +27,19 @@ class BookController extends AbstractController
     public function getBooks(int $page = 1): JsonResponse
     {
         return $this->json($this->bookService->getBooksResponse($page));
+    }
+
+    #[Route(path: '/api/book/{id}', name: 'book_get', requirements: ['page' => '\d+'], methods: ['GET'])]
+    public function getBook(int $id): JsonResponse
+    {
+        return $this->json($this->bookService->getBook($id));
+    }
+
+    #[Route(path: '/api/book/{id}', name: 'book_patch', requirements: ['page' => '\d+'], methods: ['PUT'])]
+    public function updateBook(int $id, #[MapRequestPayload] PutBookRequest $putBookRequest): JsonResponse
+    {
+        $this->bookService->updateBook($id, $putBookRequest);
+
+        return $this->json(null);
     }
 }

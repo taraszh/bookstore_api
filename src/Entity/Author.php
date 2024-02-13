@@ -80,6 +80,16 @@ class Author
         $book->addAuthor($this);
     }
 
+    public function removeBook(Book $book): void
+    {
+        if (!$this->books->contains($book)) {
+            return;
+        }
+
+        $this->books->removeElement($book);
+        $book->removeAuthor($this);
+    }
+    
     public function getMiddleName(): ?string
     {
         return $this->middleName;
