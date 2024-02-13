@@ -18,8 +18,7 @@ class AuthorController extends AbstractController
     #[Route(path: '/api/author', name: 'author_post', methods: ['POST'])]
     public function createAuthor(
         #[MapRequestPayload] CreateAuthorRequest $createAuthorRequest
-    ): JsonResponse
-    {
+    ): JsonResponse {
         return $this->json($this->authorService->createAuthor($createAuthorRequest));
     }
 

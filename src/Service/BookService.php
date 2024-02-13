@@ -64,10 +64,6 @@ class BookService
         return $authors;
     }
 
-    /**
-     * @param CreateBookRequest $createBookRequest
-     * @return void
-     */
     private function validateBook(CreateBookRequest $createBookRequest): void
     {
         $bookExists = $this->bookRepository->findOneBy(['title' => $createBookRequest->title]);
@@ -96,6 +92,10 @@ class BookService
         // todo return proper response object (like with books_get and author_*)
         /** @var Book $book */
         $book = $this->bookRepository->find($id);
+
+        if (!$book) {
+            throw new BookNotFoundException();
+        }
         
         $bookResponse['id'] = $book->getId();
         $bookResponse['title'] = $book->getTitle();
