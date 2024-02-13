@@ -27,11 +27,14 @@ API:
 
       POST /api/author
       {
-      "firstname": "Jules",
-      "lastname": "Verne"
+      "firstName": "Jules",
+      "lastName": "Verne",
+      "middleName": "Gabriel"
       }
 
    b) Роут для перегляду списку всіх авторів
+   
+      GET /api/authors/{page}
 
    c) Роут для створення книг
 

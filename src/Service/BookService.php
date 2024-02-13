@@ -20,10 +20,7 @@ class BookService
 
     public function createBook(CreateBookRequest $createBookRequest): ResourceCreatedResponse
     {
-        $isBookAlreadyExcist = $this->bookRepository->findOneBy(['title' => $createBookRequest->title]);
-        if ($isBookAlreadyExcist) {
-            throw new BookAlreadyExistsException();
-        }
+        $this->validateBook($createBookRequest);
 
         $book = $this->getBook($createBookRequest);
 
@@ -59,5 +56,17 @@ class BookService
         }
 
         return $authors;
+    }
+
+    /**
+     * @param CreateBookRequest $createBookRequest
+     * @return void
+     */
+    private function validateBook(CreateBookRequest $createBookRequest): void
+    {
+        $bookExists = $this->bookRepository->findOneBy(['title' => $createBookRequest->title]);
+        if ($bookExists) {
+            throw new BookAlreadyExistsException();
+        }
     }
 }

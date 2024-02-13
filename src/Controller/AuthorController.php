@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Author;
-use App\Model\ResourceCreatedResponse;
+use App\Model\CreateAuthorRequest;
 use App\Service\AuthorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,11 +15,17 @@ class AuthorController extends AbstractController
     {
     }
 
-    #[Route(path: '/api/author', name: 'author_create', methods: ['POST'])]
+    #[Route(path: '/api/author', name: 'author_post', methods: ['POST'])]
     public function createAuthor(
-        #[MapRequestPayload] Author $author
+        #[MapRequestPayload] CreateAuthorRequest $createAuthorRequest
     ): JsonResponse
     {
-        return $this->json($this->authorService->createAuthor($author));
+        return $this->json($this->authorService->createAuthor($createAuthorRequest));
+    }
+
+    #[Route(path: '/api/authors/{page}', name: 'authors_get', requirements: ['page' => '\d+'], methods: ['GET'])]
+    public function getAuthors(int $page = 1): JsonResponse
+    {
+        return $this->json($this->authorService->getAuthorsResponse($page));
     }
 }

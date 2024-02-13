@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Attribute\RequestBody;
 use App\Model\CreateBookRequest;
-use App\Service\AuthorService;
 use App\Service\BookService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
