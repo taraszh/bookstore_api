@@ -71,6 +71,8 @@ API:
    h) Роут для завантаження зображення
 
       POST /api/book/{id}/cover
+      Request Body
+      cover: {file}
 
 Опис даних.
 
