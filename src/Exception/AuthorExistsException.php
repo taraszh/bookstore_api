@@ -6,10 +6,10 @@ namespace App\Exception;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class BookAlreadyExistsException extends \RuntimeException
+class AuthorExistsException extends \RuntimeException
 {
     public function __construct()
     {
-        parent::__construct('book already exists', Response::HTTP_CONFLICT);
+        parent::__construct('author already exists', Response::HTTP_CONFLICT);
     }
 }

@@ -4,17 +4,15 @@ namespace App\Service;
 
 use App\Entity\Author;
 use App\Entity\Book;
-use App\Exception\BookAlreadyExistsException;
+use App\Exception\BookExistsException;
 use App\Exception\BookNotFoundException;
 use App\Exception\InvalidAuthorException;
 use App\Model\BookListItem;
 use App\Model\BookListResponse;
-use App\Model\BookResponse;
 use App\Model\CreateBookRequest;
-use App\Model\PutBookRequest;
+use App\Model\UpdateBookRequest;
 use App\Model\ResourceCreatedResponse;
 use App\Repository\BookRepository;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class BookService
 {
@@ -52,7 +50,7 @@ class BookService
         return $book;
     }
 
-    private function getAuthors(CreateBookRequest|PutBookRequest $createBookRequest): array
+    private function getAuthors(CreateBookRequest|UpdateBookRequest $createBookRequest): array
     {
         $authorsIds = $createBookRequest->authorsIds;
         $authors = $this->authorService->getAuthors($authorsIds);
@@ -68,7 +66,7 @@ class BookService
     {
         $bookExists = $this->bookRepository->findOneBy(['title' => $createBookRequest->title]);
         if ($bookExists) {
-            throw new BookAlreadyExistsException();
+            throw new BookExistsException();
         }
     }
 
@@ -91,11 +89,7 @@ class BookService
     {
         // todo return proper response object (like with books_get and author_*)
         /** @var Book $book */
-        $book = $this->bookRepository->find($id);
-
-        if (!$book) {
-            throw new BookNotFoundException();
-        }
+        $book = $this->bookRepository->getBook($id);
         
         $bookResponse['id'] = $book->getId();
         $bookResponse['title'] = $book->getTitle();
@@ -111,13 +105,10 @@ class BookService
         return $bookResponse;
     }
 
-    public function updateBook(int $id, PutBookRequest $patchBookRequest): void
+    public function updateBook(int $id, UpdateBookRequest $patchBookRequest): void
     {
         /** @var Book $book */
-        $book = $this->bookRepository->find($id);
-        if (!$book) {
-            throw new BookNotFoundException();
-        }
+        $book = $this->bookRepository->getBook($id);
         
         $book->setTitle($patchBookRequest->title);
         $book->setDescription($patchBookRequest->description);
@@ -147,7 +138,8 @@ class BookService
         if ($book->getPublicationDate()) {
             $item->setPublicationDate($book->getPublicationDate()->format('Y-m-d'));
         }
-        
+
+        $authors = [];
         foreach ($book->getAuthors() as $author) {
             $authors[] = $this->authorService->mapAuthor($author);
         }

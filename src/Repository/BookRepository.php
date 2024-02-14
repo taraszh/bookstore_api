@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Book;
+use App\Exception\BookNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +18,16 @@ class BookRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->persist($book);
         $this->getEntityManager()->flush();
+    }
+
+    public function getBook(int $id)
+    {
+        $book = $this->find($id);
+        if (!$book) {
+            throw new BookNotFoundException();
+        }
+        
+        return $book;
     }
 
 }

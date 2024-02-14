@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-class PutBookRequest
+class UpdateBookRequest
 {
     #[NotNull]
     #[Assert\Length(min: 1, max: 255)]

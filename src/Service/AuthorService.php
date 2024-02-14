@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\Author;
 use App\Entity\Book;
-use App\Exception\AuthorAlreadyExistsException;
+use App\Exception\AuthorExistsException;
 use App\Exception\InvalidAuthorException;
 use App\Model\AuthorListItem;
 use App\Model\AuthorListResponse;
@@ -51,7 +51,7 @@ class AuthorService
         ]);
 
         if ($authorExists) {
-            throw new AuthorAlreadyExistsException();
+            throw new AuthorExistsException();
         }
     }
 
