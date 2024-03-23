@@ -78,12 +78,19 @@ Data Description.
 
 a) Each book must have:
 Title. (Mandatory field)
+
 Short description. (Optional field)
+
 Image. (jpg or png, no larger than 2MB, must be stored in a separate folder and have a unique file name)
+
 Authors. (Mandatory field, a book can have multiple authors)
+
 Publication date of the book.
+
 b) Each author must have:
+
 Last name (Mandatory field, no shorter than 3 characters)
+
 First name (Mandatory)
 
 
