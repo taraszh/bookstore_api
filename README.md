@@ -19,11 +19,11 @@ XDEBUG_MODE=debug docker compose -f docker-compose.yaml up -d
 
 ---
 
-Опис завдання.
+Task Description (+ request examples).
 
 API:
 
-   a) Роут для створення авторів
+  a) Route for creating authors
 
       POST /api/author
       {
@@ -32,11 +32,11 @@ API:
       "middleName": "Gabriel"
       }
 
-   b) Роут для перегляду списку всіх авторів
+   b) Route for viewing the list of all authors
    
       GET /api/authors/{page}
 
-   c) Роут для створення книг
+   c) Route for creating books
 
      POST /api/book
       {
@@ -46,19 +46,19 @@ API:
       "publicationDate": "1879"
       }   
 
-   d) Роут для перегляду списку всіх книг
+   d) Route for viewing the list of all books
    
       GET /api/books/{page}
 
-   e) Роут для пошуку книг за прізвищем автора
+   e) Route for searching for books by author's last name
       
       -
 
-   f) Роут для перегляду однієї книги
+   f) Route for viewing a single book
 
       GET /api/book/{id}
 
-   g) Роут для редагування книги
+   g) Route for editing a book
 
       PUT /api/book/{id}
       {
@@ -68,24 +68,22 @@ API:
       "publicationDate": "1879"
       } 
    
-   h) Роут для завантаження зображення
+   h) Route for uploading an image
 
       POST /api/book/{id}/cover
       Request Body
       cover: {file}
 
-Опис даних.
+Data Description.
 
-   a) Кожна книга повинна мати:
-1. Назва. (Обов'язкове поле)
-2. Короткий опис. (Необов'язкове поле)
-3. Зображення. (jpg або png, не більше 2 Мб, повинна зберігатися в окрему
-   папку та мати унікальне ім'я файлу)
-4. Автори. (Обов'язкове поле може бути кілька авторів в однієї книги)
-5. Дата опублікування книги.
-   b) У кожного автора мають бути:
-1. Прізвище (Обов'язкове поле, не коротше 3 символів)
-2. Ім'я (Обов'язкове)
-3. По-батькові (Необов'язкове)
+a) Each book must have:
+Title. (Mandatory field)
+Short description. (Optional field)
+Image. (jpg or png, no larger than 2MB, must be stored in a separate folder and have a unique file name)
+Authors. (Mandatory field, a book can have multiple authors)
+Publication date of the book.
+b) Each author must have:
+Last name (Mandatory field, no shorter than 3 characters)
+First name (Mandatory)
 
 
